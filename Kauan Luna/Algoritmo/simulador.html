@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    Qual é a media de azeitonas colhidas por hectare no ultimo mês?
+    <input type="number" id="input_azeitonas"><br><br>
+
+    Quanto a sua fazenda gasta com irrigação por mês?
+    <input type="number" id="input_custoIrrigacao"><br><br>
+
+    A ultima colheita foi em periodo de seca?
+    <input type="text" id="input_seca"> <br><br>
+    
+    <button onclick="calculo()">Calcular</button>
+
+    <div id="div_msg"></div>
+
+</body>
+</html>
+<script>
+
+    function calculo(){
+
+        var azeitonas = Number(input_azeitonas.value);
+        var custoIrrigacao = Number(input_custoIrrigacao.value);
+        var seca = input_seca.value;
+        var totalAzeitonas = azeitonas;
+
+        if (seca == "sim"){
+            totalAzeitonas = azeitonas * 2;
+
+            div_msg.innerHTML = 
+            `como foi um periodo de seca em sua fazenda, será possivel aumentar a produção de azeitonas, com uma melhora na irrigação! <br>
+            <p><b>Azeitonas por hectare: ${totalAzeitonas}</b></p>
+            <p><b>Custo de irrigação: R$${custoIrrigacao}</b></p>
+            `
+        } else{
+            custoIrrigacao = custoIrrigacao * 0.85;
+
+            div_msg.innerHTML = 
+            `como não foi um periodo de seca em sua fazenda, será possivel reduzir o custo da irrigação em sua fazenda! <br>
+            <p><b>Azeitonas por hectare: ${totalAzeitonas}</b></p>
+            <p><b>Custo de irrigação: R$${custoIrrigacao}</b></p>
+            `
+        }
+
+    }
+
+</script>
