@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Financeiro</title>
+</head>
+<body>
+    <h3>Insira a quantidade da sua produção</h3>
+    <input type="number" id="input_producao">
+
+    <h3>Insira o tamanho da plantação em hectares</h3>
+    <input type="number" id="input_hectares">
+
+    <h3>Insira a quantidade de produção <b>perdida</b> na sua produção</h3>
+    <input type="number" id="input_perda">
+
+    <h3>Insira o preço da sua mercadoria</h3>
+    <input type="number" id="input_preco">
+
+    <button onclick="calcular()">Calcular lucro</button>
+
+    <div id="div_msg"></div>
+</body>
+</html>
+
+<script>
+    function calcular() {
+        var producao = Number(input_producao.value);
+        var hectares = Number(input_hectares.value);
+        var perda = Number(input_perda.value);
+        var preco = Number(input_preco.value);
+
+        // Calcular a produção total
+        var totalproducao = producao * hectares;
+
+        // Calcular o lucro total sem perda (sem descontar a perda)
+         var lucroSemPerda = preco * totalproducao;
+
+        // Calcular de quanto foi perdido
+        var totalperda = perda * hectares;
+
+        // Porcentagem do que foi perdido
+        var percentualPerda = (totalperda / totalproducao) * 100;
+
+        // Calcular quanto valor gasto com cada sensor por hectares
+        var valorSensor = 54.45 * hectares
+
+        
+
+        div_msg.innerHTML = ` Produção total: ${totalproducao} unidades <br>
+        Seu lucro sem perda seria de: R$ ${lucroSemPerda} <br>
+        O valor estimado de perda é de: R$ ${preco * totalperda} <br>
+        Seu percentual de perda é de: ${percentualPerda}% <br>
+        O custo com sensores por hectare é de: R$ ${valorSensor} <br>
+    `;
+
+    }
+
+
+</script>
