@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Financeiro</title>
+</head>
+
+<body>
+    <h2>Simulador Financeiro</h2>
+
+    <hr>
+
+    <div style="color: gray;">
+        AVISO: Este simulador é um indicativo de tarifa de acordo com os hábitos de consumo informados por você. Os
+        valores apresentados nesta simulação não consideram fatores externos, impostos e ou taxas.
+    </div>
+
+    <br><br>
+
+    <button onclick="Rural()">Rural</button>
+    <button onclick="Industrial()">Industrial</button>
+
+    <div id="div_msg"></div>
+
+</body>
+
+</html>
+<script>
+    var precoSistema = 60; // um sistema vai cobir 100m²
+    function Rural() {
+        div_msg.innerHTML = `<br>Tamanho do local simulado (m²):
+        <input type="number" id="input_tamanhoRural">
+        <br><br>
+        Produção estimada para a colheita (kg):
+        <input type="number" id="input_prod">
+        <br><br>
+        Valor do produto por quilo (R$):
+        <input type="number" id="input_valor">
+        <br><br>
+        Perda por produção (%):
+        <input type="number" id="input_perda">
+        <br><br>
+        <button onclick="SimularRural()">Simular</button>
+        <br><br>
+        <div id="div_msg2"></div>
+        `;
+    }
+    function Industrial() {
+        div_msg.innerHTML = `<br>Quantidade de hectares de sendo simulados: (ha)
+        <input type="number" id="input_tamanhoIndustrial">
+        <br><br>
+        Produção estimada para a colheita (ton):
+        <input type="number" id="input_prod">
+        <br><br>
+        Valor do produto por tonelada (R$):
+        <input type="number" id="input_valor">
+        <br><br>
+        Perda por produção (%):
+        <input type="number" id="input_perda">
+        <br><br>
+        <button onclick="SimularIndustrial()">Simular</button>
+        <br><br>
+        <div id="div_msg2"></div>
+        `;
+    }
+    function SimularRural() {
+        var tamRural = Number(input_tamanhoRural.value);
+        var prodRural = Number(input_prod.value);
+        var valor = Number(input_valor.value);
+        var perda = Number(input_perda.value);
+
+        //faturamento e perda sem o sistma
+        faturamentoBruto = prodRural * valor;
+        perdaFinanceira = faturamentoBruto * (perda / 100);
+        faturamentoLiquido = faturamentoBruto - perdaFinanceira
+
+        
+        //integração com o sistema (custo da implementação)
+        custoSistema = precoSistema * (tamRural / 100); //transforma o valor numerico em hectare e divide pela area monitorada
+        if(custoSistema < 60){
+            custoSistema = 60;
+        }
+        
+        lucro = perdaFinanceira - custoSistema;
+
+        //dinheiros
+        economia = faturamentoBruto - custoSistema
+        if (economia < 0) {
+            lucro = 0;
+        }
+
+        div_msg2.innerHTML = `<b>SEM O MONITORAMENTO</b> <br>
+        Seu faturamento liquido com <b> <span style="color:red"> ${perda}% de perda </span></b> por produção será de <b> ${faturamentoLiquido.toLocaleString('pt-br', { minimumFractionDigits: 2 })}R$;</b> <br>
+        O faturamento bruto (sem a perda) da sua produção seria originalmente: <b> ${faturamentoBruto.toLocaleString('pt-br', { minimumFractionDigits: 2 })}R$;</b>  <br>
+        As circunstâncias da perda de produção devido à falta de monitoramento te custaram: <b style="color:red">-${perdaFinanceira.toLocaleString('pt-br', { minimumFractionDigits: 2 })}R$</b>;<br>
+        <hr>
+        <b>COM O MONITORAMENTO</b><br>
+        O custo da integração do sistema na área descrita é de:<b> ${custoSistema.toLocaleString('pt-br', { minimumFractionDigits: 2 })}R$; </b><br>
+        Seu lucro obtido com a implementação do sistema é de: <b style="color:green"> ${lucro.toLocaleString('pt-br', { minimumFractionDigits: 2 })}R$</b>;<br>
+        Seu valor final com o sistema integrado seria de: <b style="color:green"> ${economia.toLocaleString('pt-br', { minimumFractionDigits: 2 })}R$;</b> <br>`;
+    }
+    function SimularIndustrial() {
+        var tamIndustrial = Number(input_tamanhoIndustrial.value); // tamanho em hectares
+        var prodIndustrial = Number(input_prod.value); // produção em toneladas
+        var valor = Number(input_valor.value);
+        var perda = Number(input_perda.value);
+
+        //faturamento e perda sem o sistma
+        faturamentoBruto = prodIndustrial * valor;
+        perdaFinanceira = faturamentoBruto * (perda / 100);
+        faturamentoLiquido = faturamentoBruto - perdaFinanceira
+
+        //integração com o sistema wooooow (custo da implementação)
+        custoSistema = precoSistema * tamIndustrial; //transforma o valor numerico em hectare e divide pela area monitorada
+
+        lucro = perdaFinanceira - custoSistema;
+        //dinheiros
+        economia = faturamentoBruto - custoSistema;
+        if (economia < 0) {
+            lucro = 0;
+        }
+
+
+        div_msg2.innerHTML = `<b>SEM O MONITORAMENTO</b> <br>
+        Seu faturamento liquido com <b> <span style="color:red"> ${perda}% de perda </span></b> por produção será de <b> ${faturamentoLiquido.toLocaleString('pt-br', { minimumFractionDigits: 2 })}R$;</b> <br>
+        O faturamento bruto (sem a perda) da sua produção seria originalmente: <b> ${faturamentoBruto.toLocaleString('pt-br', { minimumFractionDigits: 2 })}R$;</b>  <br>
+        As circunstâncias da perda de produção devido à falta de monitoramento te custaram: <b style="color:red">-${perdaFinanceira.toLocaleString('pt-br', { minimumFractionDigits: 2 })}R$</b>;<br>
+        <hr>
+        <b>COM O MONITORAMENTO</b><br>
+        O custo da integração do sistema na área descrita é de:<b> ${custoSistema.toLocaleString('pt-br', { minimumFractionDigits: 2 })}R$; </b><br>
+        Seu lucro obtido com a implementação do sistema é de: <b style="color:green"> ${lucro.toLocaleString('pt-br', { minimumFractionDigits: 2 })}R$</b>;<br>
+        Seu valor final com o sistema integrado seria de: <b style="color:green"> ${economia.toLocaleString('pt-br', { minimumFractionDigits: 2 })}R$;</b> <br>`;
+    }
+
+</script>
