@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador financeiro - Plantação de Azeite</title>
+</head>
+<body>
+    <p>Quantidade de oliveiras produzidas em 1 mês (KG por hectare)</p>
+    <input type="number" id="input_qtd">
+
+    <p>Tamanho da plantação (Em hectare)</p>
+    <input type="number" id="input_hectare">
+
+    <p>Quantidade de oliveiras perdidas em 1 mês (KG por hectare)</p>
+    <input type="number" id="input_qtd_perdida">
+
+    <p>Preço médio da azeitona por KG</p>
+    <input type="number" id="input_preco">
+
+    <p>Quantidade de água consumida por mês (Em m³)</p>
+    <input type="number" id="input_agua">
+
+    <p>Plantação afetada por seca: sim ou não</p>
+    <input type="text" id="input_seca">
+    <br>
+    <br>
+    <button onclick="calcular_lucro()">Calcular Lucro</button>
+    <br>
+    <div id="div_mensagem"></div>
+
+</body>
+</html>
+
+<script>
+
+    function calcular_lucro() {
+        //Variáveis coletadas
+        var qtd = Number(input_qtd.value);
+        var hectare = Number(input_hectare.value);
+        var qtd_perdida = Number(input_qtd_perdida.value);
+        var preco = Number(input_preco.value);
+        var agua = Number(input_agua.value);
+        var seca = input_seca.value;
+        
+        // Calcular produção total e perda total
+        var producao_total = qtd  * hectare;
+        var perda_total = qtd_perdida * hectare;
+
+         // Cálculo do lucro sem o sensor (custo de água atual)
+        var lucro = (producao_total - perda_total) * preco;
+        var custo_agua = agua * 25;
+        var lucro_total = lucro - custo_agua;
+
+        // verificar se a plantação sofre com seca
+        if (seca == 'sim'){
+            custo_agua += custo_agua * 0.25
+        }
+
+        // Calcular valor gasto com o sensor
+        var qtd_sensor = hectare * 100;
+        var sensor = 60 * qtd_sensor;
+
+        // Calcular perda total e lucro com sensor
+        var nova_perda_total = qtd_perdida * hectare * 0.4;
+        var novo_lucro = (producao_total - nova_perda_total) * preco;
+        var novo_lucro_total = novo_lucro - custo_agua      - sensor;
+
+
+        // Exibir o resultado
+        const resultado = `
+        Lucro sem o sensor: R$ ${lucro_total.toLocaleString('pt-BR')}<br>
+        Lucro com o sensor: R$ ${novo_lucro_total.toLocaleString('pt-BR')}<br>
+        Diferença de lucro com o sensor: R$ ${(novo_lucro_total - lucro_total).toLocaleString('pt-BR')}<br>
+        Quantidade de sensor: Você precisa de ${qtd_sensor} sensores<br>
+        Valor gasto com sensor: R$${sensor.toLocaleString('pt-BR')}
+    `;
+
+        div_mensagem.innerHTML = `${resultado}`
+    }
+</script>
