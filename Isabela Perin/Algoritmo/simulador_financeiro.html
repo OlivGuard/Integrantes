@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Financeiro</title>
+</head>
+
+<body style="text-align: center; background-color: cadetblue; color: rgb(255, 255, 255);">
+
+    <h1><b>Simulador Financeiro</b></h1>
+    <hr><br>
+
+    <h3> Qual é a quantidade de sensores na sua plantação?</h3>
+    <input type="text" id="input_sensores">
+    <br><br>
+
+    <h3>Quantos hectares existem na sua plantação?</h3>
+    <input type="text" id="input_hectare">
+    <br><br>
+
+    <h3>Qual é a porcentagem de perda por hectare?</h3>
+    <input type="text" id="input_perdaPorcentagem">
+
+    <h3>Qual é o preço da unidade do produto? (Em R$)</h3>
+    <input type="text" id="input_precoProduto">
+    <br><br>
+
+    <h3>Qual foi a quantidade de produtos vendida?</h3>
+    <input type="text" id="input_quantidade">
+    <br><br>
+
+    <button style="background-color: rgb(85, 179, 85); color: aliceblue;" onclick="calcular()">Calcular</button>
+    <hr><br>
+
+    <div id="div_mensagem"></div>
+
+</body>
+
+</html>
+
+<script>
+    function calcular() {
+        var precoSensor = 55.90;
+
+        var sensores = Number(input_sensores.value);
+        var hectares = Number(input_hectare.value);
+        var perdaPorcentagem = Number(input_perdaPorcentagem.value);
+        var precoProduto = Number(input_precoProduto.value);
+        var quantidade = Number(input_quantidade.value);
+
+
+        var custoTotal = sensores * precoSensor;
+        var receitaTotal = precoProduto * quantidade;
+        var custoHectare = custoTotal / hectares;
+        var perdaTotal = (perdaPorcentagem / 100) * receitaTotal;
+        var perdaHectare = perdaTotal / hectares;
+        var lucro = receitaTotal - custoTotal - perdaTotal;
+
+        div_mensagem.innerHTML = `
+            <b>Custo Total:</b> R$ ${custoTotal}. <br>
+            <b>Custo por Hectare:</b> R$ ${custoHectare}. <br>
+            <b>Perda Total:</b> R$ ${perdaTotal}. <br>
+            <b>Perda por Hectare:</b> R$ ${perdaHectare}. <br>
+            <b>Lucro:</b> R$ ${lucro}. <br>
+        `;
+    }
+</script>
